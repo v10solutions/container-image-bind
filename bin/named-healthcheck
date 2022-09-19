@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+#
+# Container Image BIND
+#
+
+set -o "errexit"
+set -o "nounset"
+set -o "pipefail"
+
+dig "@$(hostname -f)" -p "${1}" "cloudflare.com" +time="${2}" +tries="1" +short \
+| grep -v -e "^\$" \
+| tail -n "1" \
+| tr -d "\n"
